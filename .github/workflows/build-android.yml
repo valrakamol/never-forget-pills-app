@@ -43,23 +43,19 @@ jobs:
           python -m pip install --upgrade pip cython
           pip install buildozer "python-for-android==2024.01.21"
           pip install git+https://github.com/kivy/pyjnius.git
+          
 
-      # 6️⃣ ล้าง build เดิม (กันปัญหาไฟล์ค้าง)
-      - name: Clean old build
-        working-directory: ./frontend
-        run: buildozer android clean
-
-      # 7️⃣ ยอมรับ License SDK (ป้องกัน build ล้มเหลว)
+      # 6️⃣ ยอมรับ License SDK (ป้องกัน build ล้มเหลว)
       - name: Accept Android SDK licenses before build
         working-directory: ./frontend
         run: yes | buildozer android update
 
-      # 8️⃣ เริ่ม Build APK
+      # 7️⃣ เริ่ม Build APK
       - name: Build with Buildozer
         working-directory: ./frontend
         run: buildozer -v android debug
 
-      # 9️⃣ อัปโหลด APK เป็น Artifact ให้ดาวน์โหลด
+      # 8️⃣ อัปโหลด APK เป็น Artifact ให้ดาวน์โหลด
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
