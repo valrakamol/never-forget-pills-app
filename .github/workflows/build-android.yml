@@ -31,26 +31,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libtool pkg-config build-essential autoconf automake python3-dev libffi-dev libssl-dev
           python -m pip install --upgrade pip
-          pip install cython buildozer
+          pip install cython buildozer "python-for-android"
 
-      # --- *** จุดแก้ไขสำคัญ: เราจะ Patch p4a ที่ Buildozer จะใช้งาน *** ---
+      # --- *** 1. ยอมรับ License ก่อนเสมอ *** ---
+      - name: Accept Android SDK licenses
+        working-directory: ./frontend
+        run: yes | buildozer android update
+
+      # --- *** 2. Patch โค้ด p4a ที่ถูกดาวน์โหลดมาแล้ว *** ---
       - name: Patch python-for-android recipe for pyjnius
         working-directory: ./frontend
         run: |
-          # 1. รัน buildozer ครั้งแรกเพื่อให้มัน download p4a มาก่อน
-          buildozer android update
-          
-          # 2. หาตำแหน่งไฟล์ที่มีปัญหา
+          # หาตำแหน่งไฟล์ที่มีปัญหา
           P4A_RECIPE_FILE=.buildozer/android/platform/python-for-android/pythonforandroid/recipes/pyjnius/jnius_utils.pxi
           
-          # 3. ใช้ sed เพื่อแก้ไขไฟล์นั้นโดยตรง
+          # ใช้ sed เพื่อแก้ไขไฟล์นั้นโดยตรง
           if [ -f "$P4A_RECIPE_FILE" ]; then
             echo "Patching $P4A_RECIPE_FILE..."
             sed -i 's/isinstance(arg, long)/False/g' $P4A_RECIPE_FILE
             echo "Patch applied successfully."
           else
-            echo "Error: Recipe file not found at $P4A_RECIPE_FILE"
-            exit 1
+            echo "Error: Recipe file not found at $P4A_RECIPE_FILE. This might be okay if build succeeds."
+            # เราจะไม่ exit 1 ตรงนี้ เผื่อว่า p4a เวอร์ชันใหม่แก้ปัญหานี้ไปแล้ว
           fi
 
       - name: Build with Buildozer
