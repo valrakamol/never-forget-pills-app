@@ -1,3 +1,5 @@
+# .github/workflows/build-android.yml
+
 name: Build Android APK
 
 on:
@@ -18,35 +20,44 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-
+      
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install system dependencies
+      - name: Install system dependencies & Buildozer
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            libtool pkg-config build-essential autoconf automake \
-            python3-dev libffi-dev libssl-dev
+          sudo apt-get install -y libtool pkg-config build-essential autoconf automake python3-dev libffi-dev libssl-dev
+          python -m pip install --upgrade pip
+          pip install cython buildozer
 
-      - name: Install Build Tools
-        run: |
-          python -m pip install --upgrade pip cython
-          pip install buildozer "python-for-android"
-          pip install pyjnius==1.6.1
-
-      # --- *** เพิ่มขั้นตอนนี้เข้ามา *** ---
-      - name: Accept Android SDK licenses
+      # --- *** จุดแก้ไขสำคัญ: เราจะ Patch p4a ที่ Buildozer จะใช้งาน *** ---
+      - name: Patch python-for-android recipe for pyjnius
         working-directory: ./frontend
-        run: yes | buildozer android update
+        run: |
+          # 1. รัน buildozer ครั้งแรกเพื่อให้มัน download p4a มาก่อน
+          buildozer android update
+          
+          # 2. หาตำแหน่งไฟล์ที่มีปัญหา
+          P4A_RECIPE_FILE=.buildozer/android/platform/python-for-android/pythonforandroid/recipes/pyjnius/jnius_utils.pxi
+          
+          # 3. ใช้ sed เพื่อแก้ไขไฟล์นั้นโดยตรง
+          if [ -f "$P4A_RECIPE_FILE" ]; then
+            echo "Patching $P4A_RECIPE_FILE..."
+            sed -i 's/isinstance(arg, long)/False/g' $P4A_RECIPE_FILE
+            echo "Patch applied successfully."
+          else
+            echo "Error: Recipe file not found at $P4A_RECIPE_FILE"
+            exit 1
+          fi
 
       - name: Build with Buildozer
         working-directory: ./frontend
         run: buildozer -v android debug
-
-      - name: Upload APK
+      
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: medireminder-apk
