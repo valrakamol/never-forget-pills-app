@@ -7,7 +7,7 @@ source.include_exts = py,png,jpg,jpeg,kv,ttf,json
 version = 1.0
 
 # ✅ Dependencies ที่แนะนำ
-requirements = python3,kivy==2.3.0,pillow,requests,pyjwt,plyer,pyjnius
+requirements = python3,kivy==2.3.0,pillow,requests,pyjwt,plyer,pyjnius>=1.6.1
 
 orientation = portrait
 icon.filename = %(source.dir)s/assets/app_logo.png
@@ -36,4 +36,3 @@ android.ndk_path = $HOME/.buildozer/android/platform/android-ndk-r25b
 
 # ✅ ใช้ branch develop เพื่อแก้บั๊กล่าสุด
 p4a.branch = develop
-    
