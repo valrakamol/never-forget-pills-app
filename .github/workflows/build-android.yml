@@ -42,7 +42,7 @@ jobs:
           
           # บังคับติดตั้ง pyjnius และ plyer เวอร์ชันล่าสุดที่แก้ไขปัญหานี้แล้ว
           pip install "pyjnius==1.6.1"
-          pip install "plyer==2.2.0"
+          pip install "plyer==2.1.0"
 
       - name: Accept Android SDK licenses
         working-directory: ./frontend
