@@ -6,13 +6,13 @@ source.dir = .
 source.include_exts = py,png,jpg,jpeg,kv,ttf,json
 version = 1.0
 
-# ✅ Dependencies (ใช้ pyjnius commit ล่าสุดแทน long issue)
-requirements = python3,kivy==2.3.0,pillow,requests,pyjwt,plyer,https://github.com/kivy/pyjnius/archive/master.zip
+# ✅ Dependencies (ใช้ pyjnius เวอร์ชัน 1.6.1)
+requirements = python3,kivy==2.3.0,pillow,requests,pyjwt,plyer,pyjnius==1.6.1
 
 orientation = portrait
 icon.filename = %(source.dir)s/assets/app_logo.png
 
-# ✅ Service FCM (อย่าลืมมีไฟล์จริง firebase/fcm_service.py)
+# ✅ Service FCM
 services = FcmService:firebase/fcm_service.py
 
 [buildozer]
@@ -34,10 +34,10 @@ android.enable_androidx = True
 android.sdk_path = $HOME/.buildozer/android/platform/android-sdk
 android.ndk_path = $HOME/.buildozer/android/platform/android-ndk-r25b
 
-# ✅ ใช้ branch develop ของ python-for-android (แก้บั๊กใหม่สุด)
+# ✅ ใช้ branch develop ของ python-for-android
 p4a.branch = develop
 
-# ✅ ถ้ามี Gradle ปัญหา ให้เปิดใช้ตัวนี้
+# ✅ เพิ่ม Firebase dependency
 android.gradle_dependencies = com.google.firebase:firebase-messaging:23.1.2
 
 # ✅ เพิ่ม options
