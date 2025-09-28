@@ -37,7 +37,7 @@ jobs:
         run: |
             python -m pip install --upgrade pip cython
             pip install buildozer "python-for-android==2024.01.21"
-            pip install git+https://github.com/kivy/pyjnius.git@5a1b27d7d3bdee6cedb55440bfae9c4e66fb3c68
+            pip install git+https://github.com/kivy/pyjnius.git@master
 
       - name: Accept Android SDK licenses before build
         working-directory: ./frontend
