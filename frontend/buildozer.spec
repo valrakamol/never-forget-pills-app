@@ -7,7 +7,7 @@ source.include_exts = py,png,jpg,jpeg,kv,ttf,json
 version = 1.0
 
 # ✅ Dependencies ที่แนะนำ
-requirements = python3,kivy==2.3.0,pillow,requests,pyjwt,plyer,pyjnius>=1.6.1
+requirements = python3,kivy==2.3.0,pillow,requests,pyjwt,plyer,https://github.com/kivy/pyjnius/archive/master.zip
 
 orientation = portrait
 icon.filename = %(source.dir)s/assets/app_logo.png

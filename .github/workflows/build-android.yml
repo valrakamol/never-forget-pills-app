@@ -2,51 +2,65 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ "main" ]
-  workflow_dispatch:
+    branches: [ "main" ]   # รันทุกครั้งที่ push ไปที่ main
+  workflow_dispatch:       # สามารถกดรันเองได้ในหน้า GitHub Actions
 
 jobs:
   build:
     runs-on: ubuntu-22.04
 
     steps:
+      # 1️⃣ ดึงโค้ดจาก GitHub
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ ตั้งค่า Java (จำเป็นสำหรับ Android SDK)
       - name: Set up Java 11
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '11'
 
+      # 3️⃣ ติดตั้ง system dependencies
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
             libtool pkg-config build-essential autoconf automake \
             python3-dev libffi-dev libssl-dev liblzma-dev \
-            libsqlite3-dev libncurses5-dev zlib1g-dev libbz2-dev
+            libsqlite3-dev libncurses5-dev zlib1g-dev libbz2-dev \
+            libjpeg-dev libtiff5-dev libsndfile1
 
+      # 4️⃣ ตั้งค่า Python
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
+      # 5️⃣ ติดตั้ง Buildozer และ pyjnius เวอร์ชันใหม่
       - name: Install Build Tools
         run: |
-          python -m pip install --upgrade pip
-          pip install cython buildozer "python-for-android==2024.01.21"
-          pip install --upgrade pyjnius
+          python -m pip install --upgrade pip cython
+          pip install buildozer "python-for-android==2024.01.21"
+          pip install git+https://github.com/kivy/pyjnius.git
 
+      # 6️⃣ ล้าง build เดิม (กันปัญหาไฟล์ค้าง)
+      - name: Clean old build
+        working-directory: ./frontend
+        run: buildozer android clean
+
+      # 7️⃣ ยอมรับ License SDK (ป้องกัน build ล้มเหลว)
       - name: Accept Android SDK licenses before build
         working-directory: ./frontend
         run: yes | buildozer android update
 
+      # 8️⃣ เริ่ม Build APK
       - name: Build with Buildozer
         working-directory: ./frontend
-        run: buildozer -v android debug --copy-libs
-      
-      - name: Upload Artifact
+        run: buildozer -v android debug
+
+      # 9️⃣ อัปโหลด APK เป็น Artifact ให้ดาวน์โหลด
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: medireminder-apk
