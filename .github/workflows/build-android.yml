@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04 # <-- 1. ตรึงเวอร์ชันของ Ubuntu ที่เสถียร
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
@@ -21,42 +21,33 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-      # --- 2. ติดตั้ง Dependencies ของระบบปฏิบัติการที่จำเป็น ---
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-              libtool \
-              pkg-config \
-              build-essential \
-              autoconf \
-              automake \
-              python3-dev \
-              libffi-dev \
-              libssl-dev \
-              liblzma-dev \
-              libsqlite3-dev \
-              libncurses5-dev \
-              zlib1g-dev \
-              libbz2-dev
+              libtool pkg-config build-essential autoconf automake \
+              python3-dev libffi-dev libssl-dev liblzma-dev \
+              libsqlite3-dev libncurses5-dev zlib1g-dev libbz2-dev
 
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      # --- 3. ติดตั้ง Dependencies ของ Python ---
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install cython buildozer "python-for-android==2024.01.21"
 
-      # --- 4. รัน Buildozer ---
+      # --- *** จุดแก้ไขสำคัญ: เพิ่มขั้นตอนนี้กลับเข้ามา *** ---
+      - name: Accept Android SDK licenses before build
+        working-directory: ./frontend
+        run: yes | buildozer android update
+
       - name: Build with Buildozer
         working-directory: ./frontend
         run: buildozer -v android debug
       
-      # --- 5. อัปโหลด Artifact ---
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
