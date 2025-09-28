@@ -36,3 +36,4 @@ android.ndk_path = $HOME/.buildozer/android/platform/android-ndk-r25b
 
 # ✅ ใช้ branch develop เพื่อแก้บั๊กล่าสุด
 p4a.branch = develop
+    
