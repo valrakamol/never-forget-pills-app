@@ -6,8 +6,8 @@ source.dir = .
 source.include_exts = py,png,jpg,jpeg,kv,ttf,json
 version = 1.3
 
-# --- *** จุดแก้ไข 1: ระบุเวอร์ชันที่เข้ากันได้ทั้งหมด *** ---
-requirements = python3==3.11.*,kivy==2.3.0,pillow,requests,pyjwt,plyer==2.1.0,pyjnius==1.6.1
+# --- *** จุดแก้ไข: ระบุเวอร์ชัน Python เต็ม *** ---
+requirements = python3==3.11.8,kivy==2.3.0,pillow,requests,pyjwt,plyer==2.1.0,pyjnius==1.6.1
 
 orientation = portrait
 icon.filename = %(source.dir)s/assets/app_logo.png
@@ -23,7 +23,4 @@ android.ndk_version = 25b
 android.permissions = INTERNET, VIBRATE
 android.archs = arm64-v8a
 android.enable_androidx = True
-
-# --- *** จุดแก้ไข 2: ลบ p4a.branch ออก *** ---
-# ปล่อยให้ buildozer ใช้เวอร์ชัน p4a ที่มากับตัวมันเอง
-# p4a.branch = develop
+p4a.branch = develop
