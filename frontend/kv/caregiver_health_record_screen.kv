@@ -1,0 +1,167 @@
+# frontend/kv/caregiver_health_record_screen.kv
+
+<CaregiverHealthRecordScreen>:
+    record_list_layout: record_list_layout
+    filter_button: filter_button
+    header_label: header_label
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1) # สีเทาอ่อน (พื้นหลังสุด)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # --- Header ---
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            canvas.before:
+                Color:
+                    rgba: (0.46, 0.85, 0.63, 1) # สีเขียว
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                id: header_label
+                text: 'บันทึกสุขภาพ'
+                font_name: 'THFont'
+                font_size: '24sp'
+                bold: True
+            Button:
+                id: filter_button
+                background_normal: ''
+                background_color: 0,0,0,0
+                size_hint_x: None
+                width: self.height
+                Image:
+                    source: 'assets/icon_filter.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                    size: '32dp', '32dp'
+
+        # --- List Area (ส่วนที่แก้ไข) ---
+        ScrollView:
+            # --- *** เพิ่ม canvas.before เพื่อวาดพื้นหลังสีขาว *** ---
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # สีขาว
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # --- *********************************************** ---
+
+            GridLayout:
+                id: record_list_layout
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                padding: '10dp'
+                spacing: '10dp'
+
+        # --- Bottom Navigation Bar ---
+        BoxLayout:
+            id: bottom_nav
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '56dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            # Tab 1: โปรไฟล์
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'elder_detail_screen'
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_profile.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'โปรไฟล์'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+
+            # Tab 2: รายการยา
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'medicine_list_screen'
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_medical.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'รายการยา'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+
+            # Tab 3: หมอนัด
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'appointment_list_screen'
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_doctor.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'หมอนัด'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+
+            # Tab 4: สุขภาพ (หน้าใหม่ที่เป็น Active)
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'caregiver_health_record_screen'
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_health_active.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'สุขภาพ'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 0, 0, 0, 1 # สี Active
+                        halign: 'center'

@@ -1,0 +1,50 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+  <h2>FCM Testing and Status</h2>
+  
+  <p>ส่วนนี้ใช้สำหรับทดสอบการส่ง Push Notification ไปยังผู้ใช้โดยตรง</p>
+  
+  <form method="POST">
+    <div class="form-group">
+      <label for="user_id">Select User to Notify</label>
+      <select name="user_id" class="form-control">
+        {% for user in users %}
+          <option value="{{ user.id }}">{{ user.username }} ({{ user.role }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="title">Notification Title</label>
+      <input type="text" name="title" class="form-control" value="Test Notification">
+    </div>
+    <div class="form-group">
+        <label for="body">Notification Body</label>
+        <textarea name="body" class="form-control">This is a test message from the Admin Panel.</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Test Notification</button>
+  </form>
+
+  <hr>
+  <h3>FCM Status</h3>
+  <p>การตรวจสอบสถานะ FCM โดยละเอียดต้องทำผ่าน Firebase Console โดยตรง แต่เราสามารถแสดงรายชื่อผู้ใช้ที่มี Device Token ลงทะเบียนไว้ในระบบได้:</p>
+  <table class="table">
+      <thead>
+          <tr>
+              <th>User ID</th>
+              <th>Username</th>
+              <th>FCM Token (first 20 chars)</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+              <td>{{ user.id }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.fcm_token[:20] + '...' if user.fcm_token else 'None' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+
+{% endblock %}

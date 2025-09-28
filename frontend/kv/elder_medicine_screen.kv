@@ -1,0 +1,154 @@
+# frontend/kv/elder_medicine_screen.kv
+
+<ElderMedicineScreen>:
+    # เชื่อม Property จากไฟล์ .py เข้ากับ Widget ที่มี id ใน .kv
+    medicine_list_layout: medicine_list_layout
+    
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (0.96, 0.96, 0.96, 1) # สีเทาอ่อน (F5F5F5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        # --- ส่วนหัว (Header) ---
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1) # สีเขียว
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'รายการยา'
+                font_name: 'THFont'
+                font_size: '24sp'
+                color: 1, 1, 1, 1
+                bold: True
+
+        # --- ส่วนแสดงรายการยา (List) ---
+        # ScrollView จะกินพื้นที่ที่เหลือทั้งหมด
+        ScrollView:
+            # ใช้ GridLayout เพื่อให้ Widget ที่สร้างจาก Python แสดงผลได้ถูกต้อง
+            GridLayout:
+                id: medicine_list_layout
+                cols: 1
+                padding: '10dp'
+                spacing: '10dp'
+                size_hint_y: None
+                height: self.minimum_height
+
+
+        # Bottom Navigation Tabs (สำหรับผู้สูงอายุ)
+        BoxLayout:
+            id: bottom_nav
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '56dp'
+            spacing: 0
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # Tab 1: รายการยา
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'elder_medicine_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_medical_active.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'รายการยา'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 0, 0, 0, 1
+                        halign: 'center'
+
+            # Tab 2: หมอนัด
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'elder_appointment_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_doctor.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'หมอนัด'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+
+            # Tab 3: บันทึกสุขภาพ
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'elder_health_record_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_health.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'บันทึกสุขภาพ'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+
+            # Tab 4: โปรไฟล์
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'elder_profile_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_profile.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'โปรไฟล์'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+        

@@ -1,0 +1,162 @@
+# frontend/kv/medicine_list_screen.kv
+#:import MedicineListItem widgets.medicine_list_item.MedicineListItem
+
+<MedicineListScreen>:
+    medicine_list_layout: medicine_list_layout
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [0, 0, 0, 0]
+        spacing: 0
+        
+        canvas.before:
+            Color:
+                rgba: (0.96, 0.96, 0.96, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # ส่วนหัว (Header)
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            canvas.before:
+                Color:
+                    rgba: (0.46, 0.85, 0.63, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'รายการยา'
+                font_name: 'THFont'
+                font_size: '24sp'
+                color: 1, 1, 1, 1
+                bold: True
+
+        # ส่วนแสดงรายการยา
+        ScrollView:
+            GridLayout:
+                id: medicine_list_layout
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: '8dp'
+                padding: ['8dp', '8dp', '8dp', '8dp']
+
+        # ปุ่มเพิ่มยา (ย้ายลงมาด้านล่าง)
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            padding: '8dp'
+            Button:
+                text: '+ เพิ่ม'
+                font_name: 'THFont'
+                font_size: '18sp'
+                background_color: 0.1, 0.5, 0.2, 1
+                on_release: root.go_to_add_medicine()
+
+        # Bottom Navigation Tabs
+        BoxLayout:
+            id: bottom_nav
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '56dp'
+            spacing: 0
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # Tab 1: โปรไฟล์
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'elder_detail_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_profile.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'โปรไฟล์'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+            # Tab 2: รายการยา
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'medicine_list_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_medical_active.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'รายการยา'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 0, 0, 0, 1
+                        halign: 'center'
+            # Tab 3: หมอนัด
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'appointment_list_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_doctor.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'หมอนัด'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+            # Tab 4: สุขภาพ (หน้าใหม่ที่เป็น Active)
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'caregiver_health_record_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_health.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'สุขภาพ'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1 # สี Active
+                        halign: 'center'

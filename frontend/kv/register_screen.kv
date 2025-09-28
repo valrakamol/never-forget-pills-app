@@ -1,0 +1,162 @@
+# frontend/kv/register_screen.kv
+
+# --- Rule สำหรับ Option ของ Spinner (ควรจะอยู่ใน widgets.kv ที่เดียว) ---
+<SpinnerOption@Button>:
+    font_name: 'THFont'
+    height: '48dp'
+    size_hint_y: None
+    background_color: 0.9, 0.95, 1, 1 # สีฟ้าอ่อนตอนเลือก
+    color: 1, 1, 1, 1
+
+# --- Rule สำหรับหน้าจอ RegisterScreen ---
+<RegisterScreen>:
+    # เชื่อม Property ของ Python เข้ากับ Widget โดยตรง
+    username_input: username_field
+    first_name_input: first_name_field
+    last_name_input: last_name_field
+    password_input: password_field
+    role_spinner: role_spinner
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        padding: [0, '40dp', 0, 0]
+        canvas.before:
+            Color:
+                rgba: 0.9, 0.9, 0.9, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: ['20dp', '20dp', '20dp', '20dp'] # ซ้าย,บน,ขวา,ล่าง
+            spacing: '12dp'
+            size_hint: None, None
+            size: '340dp', '600dp'   # ปรับขนาดกล่องให้ใหญ่ขึ้น
+
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [24,]
+
+            Image:
+                source: 'assets/register_image.png'
+                size_hint_y: None
+                height: '90dp'        # ปรับขนาดรูปให้เล็กลง
+                allow_stretch: True
+                keep_ratio: True
+
+            Label:
+                text: 'สมัครสมาชิก'
+                font_name: 'THFont'
+                font_size: '20sp'     # ปรับขนาด font ให้เล็กลง
+                color: 0, 0, 0, 1
+                size_hint_y: None
+                height: self.texture_size[1]
+                bold: True
+
+            # --- ฟอร์ม ---
+            Label:
+                text: 'ชื่อผู้ใช้ (สำหรับล็อกอิน)'
+                font_name: 'THFont'
+                color: 0,0,0,1
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: 'left'
+                text_size: self.width, None
+
+            TextInput:
+                id: username_field
+                hint_text: 'ต้องไม่ซ้ำกับคนอื่น'
+                font_name: 'THFont'
+                multiline: False
+                size_hint_y: None
+                height: '36dp'        # ปรับความสูง input
+                font_size: '15sp'     # ปรับขนาด font input
+
+            Label:
+                text: 'ชื่อจริง'
+                font_name: 'THFont'
+                color: 0,0,0,1
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: 'left'
+                text_size: self.width, None
+
+            TextInput:
+                id: first_name_field
+                font_name: 'THFont'
+                multiline: False
+                size_hint_y: None
+                height: '36dp'
+                font_size: '15sp'
+
+            Label:
+                text: 'นามสกุล'
+                font_name: 'THFont'
+                color: 0,0,0,1
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: 'left'
+                text_size: self.width, None
+
+            TextInput:
+                id: last_name_field
+                font_name: 'THFont'
+                multiline: False
+                size_hint_y: None
+                height: '36dp'
+                font_size: '15sp'
+
+            Label:
+                text: 'รหัสผ่าน'
+                font_name: 'THFont'
+                color: 0,0,0,1
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: 'left'
+                text_size: self.width, None
+
+            TextInput:
+                id: password_field
+                font_name: 'THFont'
+                multiline: False
+                password: True
+                size_hint_y: None
+                height: '36dp'
+                font_size: '15sp'
+
+            Spinner:
+                id: role_spinner
+                text: 'เลือกบทบาท'
+                font_name: 'THFont'
+                font_size: '15sp'
+                values: ['ผู้ดูแล (ดูแลผู้สูงอายุ, เพิ่มยา)', 'อสม. (บันทึกข้อมูลสุขภาพ)']
+                size_hint_y: None
+                height: '40dp'
+                option_cls: 'SpinnerOption'
+                background_normal: '' 
+                background_color: 0.92, 0.92, 0.92, 1
+                color: 0, 0, 0, 1
+
+            Button:
+                text: "สมัครสมาชิก"
+                font_name: 'THFont'
+                size_hint_y: None
+                height: '40dp'
+                font_size: '16sp'
+                on_release: root.register_user()
+
+            Button:
+                text: "มีบัญชีอยู่แล้ว? เข้าสู่ระบบที่นี่"
+                font_name: 'THFont'
+                size_hint_y: None
+                height: '36dp'
+                font_size: '15sp'
+                background_color: 1,1,1,0
+                color: 0.2, 0.4, 1, 1
+                on_release: root.go_to_login()

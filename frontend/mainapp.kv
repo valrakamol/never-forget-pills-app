@@ -1,0 +1,65 @@
+#:kivy 2.1.0
+
+# --- Include ไฟล์ KV ของแต่ละหน้าจอและ Widgets ---
+#:include kv/widgets.kv
+#:include kv/role_select_screen.kv
+#:include kv/login_screen.kv
+#:include kv/elder_login_screen.kv
+#:include kv/register_screen.kv
+# -- Caregiver Screens --
+#:include kv/caregiver_screen.kv
+#:include kv/caregiver_health_record_screen.kv
+#:include kv/add_elder_screen.kv
+#:include kv/elder_detail_screen.kv
+#:include kv/add_medicine_screen.kv
+#:include kv/add_appointment_screen.kv
+# -- OSM Screens --
+#:include kv/osm_screen.kv
+#:include kv/add_elder_volunteer_screen.kv
+#:include kv/edit_health_screen.kv
+#:include kv/osm_summary_screen.kv
+# -- Elder Screens --
+#:include kv/elder_medicine_screen.kv
+
+
+
+# --- ประกาศหน้าจอทั้งหมดภายใต้ WindowManager ---
+WindowManager:
+    # --- Login Flow ---
+    RoleSelectScreen:
+        name: 'role_select_screen'
+    LoginScreen:
+        name: 'login_screen'
+    ElderLoginScreen:
+        name: 'elder_login_screen'
+    RegisterScreen:
+        name: 'register_screen'
+
+    # --- Caregiver Flow ---
+    CaregiverScreen:
+        name: 'caregiver_screen'
+    CaregiverHealthRecordScreen:
+        name: 'caregiver_health_record_screen'
+    AddElderScreen:
+        name: 'add_elder_screen'
+    ElderDetailScreen: 
+        name: 'elder_detail_screen'
+    AddMedicineScreen:
+        name: 'add_medicine_screen'
+    AddAppointmentScreen:
+        name: 'add_appointment_screen'
+
+    # --- OSM Flow ---
+    OsmScreen:
+        name: 'osm_screen'
+    AddElderVolunteerScreen:
+        name: 'add_elder_volunteer_screen'
+    EditHealthScreen:
+        name: 'edit_health_screen'
+    OsmSummaryScreen:
+        name: 'osm_summary_screen'
+
+    # --- Elder Flow ---
+    ElderMedicineScreen:
+        name: 'elder_medicine_screen'
+    

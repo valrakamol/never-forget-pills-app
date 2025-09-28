@@ -1,0 +1,92 @@
+# frontend/kv/elder_login_screen.kv
+
+<ElderLoginScreen>:
+    # เชื่อม Property ของ Python เข้ากับ Widget ที่มี id ใน .kv
+    username_input: username_field
+    password_input: password_field
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        canvas.before:
+            Color:
+                rgba: 0.1, 0.1, 0.1, 1 # พื้นหลังสีดำ
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # กล่องสีขาวสำหรับฟอร์ม
+        BoxLayout:
+            orientation: 'vertical'
+            padding: '30dp'
+            spacing: '15dp'
+            size_hint: None, None
+            size: '340dp', '480dp' # ปรับขนาด
+            
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [20,]
+            
+            Image:
+                source: 'assets/login_image.png'
+                size_hint_y: None
+                height: '120dp'
+
+            # --- *** นี่คือฟอร์มที่ถูกต้อง *** ---
+            # จะมีแค่ Label และ TextInput อย่างละชุดเท่านั้น
+            
+            Label:
+                text: 'ชื่อผู้ใช้'
+                font_name: 'THFont'
+                color: 0,0,0,1
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: 'left'
+                text_size: self.width, None
+
+            TextInput:
+                id: username_field
+                hint_text: 'ที่ผู้ดูแลสมัครให้'
+                font_name: 'THFont'
+                multiline: False
+                size_hint_y: None
+                height: '44dp'
+
+            Label:
+                text: 'รหัสผ่าน'
+                font_name: 'THFont'
+                color: 0,0,0,1
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: 'left'
+                text_size: self.width, None
+
+            TextInput:
+                id: password_field
+                hint_text: 'รหัสผ่านที่ผู้ดูแลตั้งให้'
+                font_name: 'THFont'
+                multiline: False
+                password: True
+                size_hint_y: None
+                height: '44dp'
+            
+            # --- ปุ่ม ---
+            Button:
+                text: 'เข้าสู่ระบบ'
+                font_name: 'THFont'
+                size_hint_y: None
+                height: '48dp'
+                background_color: 0.2, 0.6, 0.3, 1 # สีเขียว
+                on_release: root.login_user()
+
+            Button:
+                text: 'ย้อนกลับ'
+                font_name: 'THFont'
+                size_hint_y: None
+                height: '48dp'
+                background_color: 0.8, 0.8, 0.8, 1
+                on_release: root.go_back()

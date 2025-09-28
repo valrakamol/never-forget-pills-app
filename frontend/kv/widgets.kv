@@ -1,0 +1,157 @@
+# frontend/kv/widgets.kv
+
+#:import datetime datetime.datetime
+#:import date datetime.date
+
+<MedicineListItem>:
+    orientation: 'vertical'
+    size_hint_y: None
+    height: self.minimum_height
+    padding: '10dp'
+    spacing: '8dp'
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1 # พื้นหลังสีขาว
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [15,]
+    
+    # ส่วนบน: รูปภาพ + ข้อมูล
+    BoxLayout:
+        size_hint_y: None
+        height: '100dp'
+        spacing: '10dp'
+        
+        Image:
+            id: med_image
+            source: root.image_source
+            size_hint_x: None
+            width: self.height
+
+        BoxLayout:
+            orientation: 'vertical'
+            
+            # แถวบน: ชื่อยา และ สถานะ
+            BoxLayout:
+                Label:
+                    text: root.med_name
+                    font_name: 'THFont'
+                    font_size: '16sp'
+                    bold: True
+                    halign: 'left'
+                    text_size: self.width, None
+                    color: 0,0,0,1
+                Label:
+                    text: root.med_status
+                    font_name: 'THFont'
+                    color: (0.2, 0.8, 0.2, 1) if root.med_status == 'กินแล้ว' else (1, 0.2, 0.2, 1)
+                    halign: 'right'
+                    size_hint_x: 0.4
+                    text_size: self.width, None
+            
+            # แถวกลาง: ข้อมูลย่อย
+            GridLayout:
+                cols: 1
+                spacing: '2dp'
+                Label:
+                    text: f"เวลา {root.med_time}"
+                    font_name: 'THFont'
+                    color: 0,0,0,1
+                Label:
+                    text: f"ปริมาณ: {root.med_dosage}"
+                    font_name: 'THFont'
+                    color: 0,0,0,1
+                Label:
+                    text: f"มื้ออาหาร: {root.med_meal}"
+                    font_name: 'THFont'
+                    color: 0,0,0,1
+
+    # ส่วนล่าง: ปุ่มลบ
+    BoxLayout:
+        size_hint_y: None
+        height: '30dp'
+        Button:
+            text: 'ลบ'
+            font_name: 'THFont'
+            size_hint: None, None
+            size: self.texture_size
+            pos_hint: {'right': 1}
+            background_color: 0,0,0,0
+            color: 1,0.2,0.2,1
+            on_release: root.on_delete_callback(root.med_id, root.med_name)
+
+# frontend/kv/widgets.kv
+<ElderMedicineItem>:
+    orientation: 'vertical'
+    size_hint_y: None
+    height: self.minimum_height
+    padding: '10dp'
+    spacing: '8dp'
+    
+    # เส้นคั่นด้านบน (ยกเว้นอันแรก)
+    canvas.before:
+        Color:
+            rgba: 0.8, 0.8, 0.8, 1
+        Line:
+            points: [self.x, self.y + self.height, self.x + self.width, self.y + self.height]
+            width: 1
+
+    # ส่วนบน: รูปภาพ + ข้อมูล
+    BoxLayout:
+        size_hint_y: None
+        height: '100dp'
+        spacing: '10dp'
+        
+        Image:
+            id: med_image
+            source: root.image_source
+            size_hint_x: None
+            width: self.height
+
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: root.med_name
+                font_name: 'THFont'
+                font_size: '18sp'
+                bold: True
+                color: (0,0,0,1)
+                halign: 'left'
+                text_size: self.width, None
+            Label:
+                text: f"เวลา: {root.med_time}"
+                font_name: 'THFont'
+            Label:
+                text: f"ปริมาณ: {root.med_dosage}"
+                font_name: 'THFont'
+            Label:
+                text: f"มื้ออาหาร: {root.med_meal}"
+                font_name: 'THFont'
+
+    # ส่วนล่าง: ปุ่ม หรือ ข้อความสถานะ
+    RelativeLayout:
+        size_hint_y: None
+        height: '48dp'
+
+        # ปุ่มนี้จะแสดงก็ต่อเมื่อยังไม่ได้กินยา
+        Button:
+            text: "ยืนยันว่ากินยาแล้ว"
+            font_name: "THFont"
+            opacity: 1 if not root.is_taken_today else 0
+            disabled: root.is_taken_today
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            on_release: root.confirm_medication()
+
+        # ข้อความนี้จะแสดงก็ต่อเมื่อกินยาไปแล้ว
+        Label:
+            text: "กินแล้ว"
+            font_name: "THFont"
+            font_size: '16sp'
+            bold: True
+            color: (0.2, 0.8, 0.2, 1) # สีเขียว
+            opacity: 1 if root.is_taken_today else 0
+            disabled: not root.is_taken_today
+            pos_hint: {'center_x': .5, 'center_y': .5}
+
+

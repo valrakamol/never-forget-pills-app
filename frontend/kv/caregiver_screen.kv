@@ -1,0 +1,132 @@
+# frontend/kv/caregiver_screen.kv
+
+<CaregiverScreen>:
+    elder_list_layout: elder_list_layout
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # --- Header Bar (ส่วนหัวสีเขียว) ---
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'รายชื่อผู้สูงอายุ'
+                font_name: 'THFont'
+                font_size: '22sp'
+                color: 1, 1, 1, 1
+                bold: True
+
+        # --- พื้นที่แสดงรายชื่อผู้สูงอายุ ---
+        ScrollView:
+            id: elder_list_scroll
+            bar_width: 0 # ซ่อน Scrollbar
+            GridLayout:
+                id: elder_list_layout
+                cols: 1         
+                size_hint_y: None
+                height: self.minimum_height
+                padding: '12dp' # <--- เพิ่มบรรทัดนี้ เพื่อให้การ์ดไม่ชิดขอบ
+                spacing: '12dp'
+
+        # --- Bottom Navigation Tabs (เหมือนเดิม) ---
+        BoxLayout:
+            id: bottom_nav
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '72dp'
+            spacing: 0
+            padding: [0, 0, 0, 0]
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1) # สีเขียวเดียวกับ Header
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # Tab 1
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.switch_to_caregiver_screen()
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_list_active.png'
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'รายชื่อ'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 0, 0, 0, 1
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'center'
+            # Tab 2
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.go_to_add_elder()
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_plus.png'
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'เพิ่มรายชื่อ'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'center'
+            # Tab 3
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.go_to_caregiver_profile()
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_profile.png'
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'โปรไฟล์'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'center'

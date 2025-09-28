@@ -1,0 +1,63 @@
+# frontend/kv/role_select_screen.kv
+
+<RoleSelectScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.98, 0.98, 1, 1 # ปรับสีพื้นหลังให้อ่อนลงอีกเล็กน้อย
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '40dp'
+        spacing: '15dp'
+        
+        # --- ส่วนหัวและโลโก้ ---
+        Label:
+            text: 'ยินดีต้อนรับสู่\n"ยาไม่ลืม"'
+            font_name: 'THFont'
+            font_size: '28sp'
+            color: 0.1, 0.1, 0.4, 1
+            bold: True
+            size_hint_y: None # <-- แก้ไข
+            height: self.texture_size[1] + dp(20) # ให้ความสูงปรับตามข้อความ + padding
+            halign: 'center'
+            
+        Image:
+            source: 'assets/login_image.png' # แนะนำให้เป็นโลโก้ของแอป
+            # ปล่อยให้ Image ยืดเพื่อเติมพื้นที่ว่างที่เหลือ
+            # size_hint_y จะถูกคำนวณโดยอัตโนมัติ
+
+        # --- ส่วนปุ่มเลือก ---
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None # <-- แก้ไข
+            height: self.minimum_height # ให้ความสูงปรับตามปุ่มข้างใน
+            spacing: '10dp'
+
+            Label:
+                text: 'กรุณาเลือกประเภทผู้ใช้งาน'
+                font_name: 'THFont'
+                font_size: '18sp'
+                color: .2, .2, .2, 1
+                size_hint_y: None
+                height: self.texture_size[1]
+
+            Button:
+                text: 'สำหรับผู้สูงอายุ'
+                font_name: 'THFont'
+                font_size: '18sp'
+                size_hint_y: None
+                height: '50dp' # กำหนดความสูงคงที่
+                background_color: 0.2, 0.6, 0.3, 1
+                on_press: root.select_role('elder')
+                
+            Button:
+                text: 'สำหรับผู้ดูแล / อสม.'
+                font_name: 'THFont'
+                font_size: '18sp'
+                size_hint_y: None
+                height: '50dp' # กำหนดความสูงคงที่
+                background_color: 0.3, 0.5, 0.9, 1
+                on_press: root.select_role('manager')

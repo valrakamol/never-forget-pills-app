@@ -1,0 +1,178 @@
+# frontend/kv/add_appointment_screen.kv
+
+# --- 1. สร้าง Rule สำหรับตัวเลือกใน Dropdown ไว้ในไฟล์นี้โดยตรง ---
+#    (วิธีนี้จะแก้ปัญหาได้อย่างถาวรสำหรับหน้าจอนี้)
+<CustomSpinnerOption@Button>:
+    font_name: 'THFont'
+    height: '48dp'
+    size_hint_y: None
+    background_normal: ''
+    background_color:0.2, 0.2, 0.2, 1 
+    color: 1, 1, 1, 1                             
+
+# --- 2. Rule กลางสำหรับแถวกรอกข้อมูล (เหมือนเดิม) ---
+<InputRow@BoxLayout>:
+    size_hint_y: None
+    height: '56dp'
+    padding: '16dp', 0 
+    spacing: '8dp'
+    canvas.before:
+        Color:
+            rgba: 0.92, 0.92, 0.92, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [28,]
+
+# --- 3. Rule หลักของหน้าจอ (ส่วนที่แก้ไข) ---
+<AddAppointmentScreen>:
+    # เชื่อม Properties จาก .py (เหมือนเดิม)
+    title_field: title_field
+    doctor_field: doctor_field
+    location_field: location_field
+    notes_field: notes_field
+    day_spinner: day_spinner
+    month_spinner: month_spinner
+    year_spinner: year_spinner
+    time_spinner: time_spinner
+    
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        # --- ส่วนหัว (เหมือนเดิม) ---
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1) # สีเขียว
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: "เพิ่มนัดหมายแพทย์"
+                font_name: "THFont"
+                font_size: "24sp"
+                bold: True
+            
+        # --- ส่วนฟอร์ม ---
+        ScrollView:
+            GridLayout:
+                cols: 1
+                adaptive_height: True
+                padding: "30dp"
+                spacing: "20dp"
+
+                InputRow:
+                    TextInput:
+                        id: title_field
+                        hint_text: "หัวข้อการนัด (เช่น ตรวจสุขภาพประจำปี)"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        background_color: 0,0,0,0
+                        foreground_color: 0.1, 0.1, 0.1, 1
+                        hint_text_color: 0.5, 0.5, 0.5, 1
+                InputRow:
+                    TextInput:
+                        id: doctor_field
+                        hint_text: "ชื่อแพทย์ (ถ้ามี)"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        background_color: 0,0,0,0
+                        foreground_color: 0.1, 0.1, 0.1, 1
+                        hint_text_color: 0.5, 0.5, 0.5, 1
+                InputRow:
+                    TextInput:
+                        id: location_field
+                        hint_text: "สถานที่ (เช่น รพ.สรรพสิทธิฯ)"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        background_color: 0,0,0,0
+                        foreground_color: 0.1, 0.1, 0.1, 1
+                        hint_text_color: 0.5, 0.5, 0.5, 1
+                
+                # วันที่นัดหมาย (Spinner)
+                InputRow:
+                    Label:
+                        text: "วันที่นัด"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        size_hint_x: 0.4
+                        color: 0.1, 0.1, 0.1, 1
+                    Spinner:
+                        id: day_spinner
+                        text: "วัน"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        values: [str(i) for i in range(1, 32)]
+                        background_color: 0,0,0,0
+                        option_cls: 'CustomSpinnerOption' # <-- ใช้ Rule ใหม่
+                        color: 0.1, 0.1, 0.1, 1          # <-- สีข้อความบน Spinner (ดำ)
+                    Spinner:
+                        id: month_spinner
+                        text: "เดือน"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        values: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
+                        background_color: 0,0,0,0
+                        option_cls: 'CustomSpinnerOption' # <-- ใช้ Rule ใหม่
+                        color: 0.1, 0.1, 0.1, 1          # <-- สีข้อความบน Spinner (ดำ)
+                    Spinner:
+                        id: year_spinner
+                        text: "ปี (พ.ศ.)"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        values: root.year_options
+                        background_color: 0,0,0,0
+                        option_cls: 'CustomSpinnerOption' # <-- ใช้ Rule ใหม่
+                        color: 0.1, 0.1, 0.1, 1          # <-- สีข้อความบน Spinner (ดำ)
+                
+                # เวลา (Spinner)
+                InputRow:
+                    Spinner:
+                        id: time_spinner
+                        text: "เลือกเวลา"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"]
+                        background_color: 0,0,0,0
+                        option_cls: 'CustomSpinnerOption' # <-- ใช้ Rule ใหม่
+                        color: 0.1, 0.1, 0.1, 1          # <-- สีข้อความบน Spinner (ดำ)
+
+                InputRow:
+                    TextInput:
+                        id: notes_field
+                        hint_text: "หมายเหตุเพิ่มเติม (ถ้ามี)"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+
+        # --- ส่วนปุ่ม ---
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            padding: "12dp"
+            spacing: "12dp"
+            Button:
+                text: "ย้อนกลับ"
+                font_name: "THFont"
+                font_size: '16sp'
+                background_normal: ''
+                background_color: (200/255, 200/255, 200/255, 1)
+                color: (50/255, 50/255, 50/255, 1)
+                on_release: root.go_back()
+            Button:
+                text: "ยืนยัน"
+                font_name: "THFont"
+                font_size: '16sp'
+                background_normal: ''
+                background_color: (46/255, 125/255, 50/255, 1) # สีเขียวเข้ม
+                color: 1, 1, 1, 1
+                on_release: root.save_appointment()

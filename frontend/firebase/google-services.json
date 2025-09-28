@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "623129295867",
+    "project_id": "medicine-is-not-forgotten",
+    "storage_bucket": "medicine-is-not-forgotten.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623129295867:android:7b0bdcd2c93af9be87295e",
+        "android_client_info": {
+          "package_name": "com.myapp.Medicine_is_not_forgotten"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQDeWz_xuWFhVoVJSLcRa_O7vuYPPBbb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

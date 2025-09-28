@@ -1,0 +1,85 @@
+# frontend/kv/osm_add_elder_screen.kv
+
+<OsmAddElderScreen>:
+    all_elders_layout: all_elders_layout
+    search_input: search_input
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1) # สีเทาอ่อน
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        # --- Header ---
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1) # สีเขียว
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'เพิ่มผู้สูงอายุในความดูแล'
+                font_name: 'THFont'
+                font_size: '22sp'
+                color: 1, 1, 1, 1
+                bold: True
+        
+        # --- Search Bar ---
+        BoxLayout:
+            size_hint_y: None
+            height: '56dp'
+            padding: '8dp'
+            spacing: '8dp'
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1 # พื้นหลังสีขาว
+                Rectangle:
+                    pos: self.pos
+                    size: self.pos
+            TextInput:
+                id: search_input
+                hint_text: 'ค้นหาจากรายชื่อผู้สูงอายุทั้งหมด...'
+                font_name: 'THFont'
+                font_size: '16sp'
+                multiline: False
+                on_text_validate: root.filter_elders(self.text)
+                background_color: 0.9, 0.9, 0.9, 1 # สีเทาอ่อน
+            Button:
+                text: 'ค้นหา'
+                font_name: 'THFont'
+                font_size: '16sp'
+                size_hint_x: None
+                width: '100dp'
+                on_release: root.filter_elders(search_input.text)
+                background_normal: ''
+                background_color: (50/255, 150/255, 100/255, 1) # สีเขียวเข้ม
+
+        # --- List of all elders ---
+        ScrollView:
+            bar_width: 0
+            GridLayout:
+                id: all_elders_layout
+                cols: 1
+                adaptive_height: True
+                padding: '10dp'
+                spacing: '5dp'
+        
+        # --- ปุ่มย้อนกลับ ---
+        BoxLayout:
+            size_hint_y: None
+            height: '70dp'
+            padding: '10dp'
+            Button:
+                text: 'ย้อนกลับไปหน้ารายชื่อ'
+                font_name: 'THFont'
+                font_size: '18sp'
+                background_normal: ''
+                background_color: (200/255, 200/255, 200/255, 1)
+                color: (50/255, 50/255, 50/255, 1)
+                on_release: root.go_back()

@@ -1,0 +1,31 @@
+# Python Bytecode and Caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.so
+*.o
+
+# Virtual Environments
+/venv/
+/backend/venv/
+/frontend/venv/
+
+# Instance folder with secrets
+/backend/instance/
+
+# Buildozer build files
+.buildozer/
+bin/
+
+# Kivy logs
+.kivy/
+
+# IDE files
+.vscode/
+.idea/  

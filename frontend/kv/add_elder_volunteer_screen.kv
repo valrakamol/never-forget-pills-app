@@ -1,0 +1,181 @@
+# frontend/kv/add_elder_volunteer_screen.kv
+
+# --- Rule กลางสำหรับช่องกรอกข้อมูล (เหมือนกับหน้า AddMedicine) ---
+<InputRow@BoxLayout>:
+    size_hint_y: None
+    height: '56dp'
+    padding: '16dp', 0 
+    spacing: '8dp'
+    canvas.before:
+        Color:
+            rgba: 0.92, 0.92, 0.92, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [28,]
+
+<AddElderVolunteerScreen>:
+    # เชื่อม Properties จาก .py
+    username_input: username_field
+    password_input: password_field
+    
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        # --- ส่วนหัว ---
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1) # สีเขียว
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: "เชื่อมโยงผู้สูงอายุ"
+                font_name: "THFont"
+                font_size: "24sp"
+                bold: True
+            
+        # --- ส่วนฟอร์ม ---
+        ScrollView:
+            GridLayout:
+                cols: 1
+                adaptive_height: True
+                padding: "30dp"
+                spacing: "20dp"
+
+                InputRow:
+                    Image:
+                        source: 'assets/icon_profile.png'
+                        size_hint_x: None
+                        width: self.height
+                    TextInput:
+                        id: username_field
+                        hint_text: "กรอกชื่อผู้ใช้ผู้สูงอายุ"
+                        font_name: "THFont"
+                        background_color: 0,0,0,0
+                
+                InputRow:
+                    Image:
+                        source: 'assets/icon_lock.png'
+                        size_hint_x: None
+                        width: self.height
+                    TextInput:
+                        id: password_field
+                        hint_text: "กรอกรหัสผ่าน"
+                        font_name: "THFont"
+                        background_color: 0,0,0,0
+                        password: True
+                        
+        # --- ส่วนปุ่ม (จะอยู่ที่ด้านล่างเสมอ) ---
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            padding: "12dp"
+            spacing: "12dp"
+            
+            Button:
+                text: "ย้อนกลับ"
+                font_name: "THFont"
+                background_color: 0.85, 0.85, 0.85, 1
+                color: 0.1, 0.1, 0.1, 1
+                on_release: root.go_back()
+
+            Button:
+                text: "ยืนยัน"
+                font_name: "THFont"
+                background_color: (119/255, 217/255, 161/255, 1)
+                on_release: root.link_elder()
+        
+        # Bottom Navigation Tabs (สำหรับผู้สูงอายุ)
+        BoxLayout:
+            id: bottom_nav
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '56dp'
+            spacing: 0
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # Tab 1: รายการยา
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'osm_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_list.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'รายชื่อผู้สูงอายุ'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+
+            # Tab 2: หมอนัด
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'add_elder_volunteer_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_plus_active.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'เชื่อมโยงผู้สูงอายุ'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 0, 0, 0, 1
+                        halign: 'center'
+
+            # Tab 3: โปรไฟล์
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'osm_profile_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_profile.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'โปรไฟล์'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center' 

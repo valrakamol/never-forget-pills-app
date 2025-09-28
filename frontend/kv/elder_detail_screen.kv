@@ -1,0 +1,185 @@
+# frontend/kv/elder_detail_screen.kv
+<ElderDetailScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [0, 0, 0, 0]
+        spacing: 0
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1) # สีเทาอ่อน
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # Header
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'รายละเอียดผู้สูงอายุ'
+                font_name: 'THFont'
+                font_size: '24sp'
+                color: 1, 1, 1, 1
+                bold: True
+                halign: 'center'
+                valign: 'middle'
+                text_size: self.width, self.height
+        Widget:
+            size_hint_y: 0.05
+
+        # ปุ่มย้อนกลับ
+        BoxLayout:
+            size_hint_y: None
+            height: '48dp'
+            padding: ['16dp', 0, 0, 0]
+            Button:
+                text: 'ย้อนกลับ'
+                font_name: 'THFont'
+                font_size: '18sp'
+                background_color: (119/255, 217/255, 161/255, 1)
+                color: 1, 1, 1, 1
+                size_hint_x: None
+                width: '120dp'
+                on_release: root.go_back()
+
+        # ข้อมูลผู้สูงอายุ
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '100dp'
+            padding: ['32dp', 0, '32dp', 0]
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: 1, None
+                height: '70dp'
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [16]
+                Label:
+                    text: 'ชื่อ: ' + root.elder_name
+                    font_name: 'THFont'
+                    font_size: '20sp'
+                    color: 0, 0, 0, 1
+                    bold: True
+                    halign: 'left'
+                    valign: 'middle'
+                    text_size: self.width, self.height
+
+        Widget:
+            size_hint_y: 1
+
+        # Bottom Navigation Tabs (สำหรับผู้สูงอายุ)
+        BoxLayout:
+            id: bottom_nav
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '56dp'
+            spacing: 0
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # Tab 1: โปรไฟล์
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'elder_detail_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_profile_active.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'โปรไฟล์'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 0, 0, 0, 1
+                        halign: 'center'
+            # Tab 2: รายการยา
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'medicine_list_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_medical.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'รายการยา'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+            # Tab 3: หมอนัด
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'appointment_list_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_doctor.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'หมอนัด'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1
+                        halign: 'center'
+            # Tab 4: สุขภาพ (หน้าใหม่ที่เป็น Active)
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'caregiver_health_record_screen'
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '2dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_health.png'
+                        size_hint: None, None
+                        size: '28dp', '28dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'สุขภาพ'
+                        font_name: 'THFont'
+                        font_size: '12sp'
+                        color: 1, 1, 1, 1 # สี Active
+                        halign: 'center'

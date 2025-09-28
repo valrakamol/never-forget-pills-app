@@ -1,0 +1,166 @@
+# frontend/kv/caregiver_profile_screen.kv
+
+<CaregiverProfileScreen>:
+    # เชื่อม id ของ TextInput เข้ากับ Property ในไฟล์ .py
+    full_name_label: full_name_label
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [0, 0, 0, 0]
+        spacing: 0
+        # --- เพิ่มสีพื้นหลังเพื่อให้เห็น Widget ชัดเจน ---
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1) # สีเทาอ่อน
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # Header (เหมือนเดิม)
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            canvas.before:
+                Color:
+                    rgba: 0.4, 0.8, 0.6, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'โปรไฟล์ผู้ดูแล'
+                font_name: 'THFont'
+                font_size: '24sp'
+                color: 1, 1, 1, 1
+                bold: True
+                halign: 'center'
+                valign: 'middle'
+                text_size: self.width, self.height
+
+        # --- ปรับปรุง Layout ส่วนเนื้อหา ---
+        # เพิ่ม Spacer ด้านบน
+        Widget:
+            size_hint_y: None
+            height: '40dp'
+
+        # ชื่อผู้ใช้งาน
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '56dp'
+            padding: ['32dp', 0, '32dp', 0]
+            spacing: '12dp'
+            Image:
+                source: 'assets/icon_user.png'
+                size_hint: None, None
+                size: '32dp', '32dp'
+
+            Label:
+                id: full_name_label
+                text: 'กำลังโหลดชื่อ...' 
+                font_name: 'THFont'
+                font_size: '22sp'
+                bold: True
+                color: 0,0,0,1
+                size_hint_y: None
+                height: self.texture_size[1]
+        
+        # เพิ่ม Spacer
+        Widget:
+            size_hint_y: None
+            height: '20dp'
+
+        # ปุ่มออกจากระบบ (ใส่ใน BoxLayout เพื่อควบคุม Padding)
+        BoxLayout:
+            size_hint_y: None
+            height: '56dp'
+            padding: ['32dp', 0, '32dp', 0]
+            Button:
+                text: 'ออกจากระบบ'
+                font_name: 'THFont'
+                font_size: '18sp'
+                background_color: (220/255, 80/255, 80/255, 1) # สีแดงที่สวยขึ้น
+                color: 1, 1, 1, 1
+                on_release: root.logout()
+
+        Widget:
+            size_hint_y: 1
+
+        # --- Bottom Navigation Tabs (พร้อมแก้ไขข้อผิดพลาด) ---
+        BoxLayout:
+            id: bottom_nav
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '72dp'
+            spacing: 0
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # Tab 1
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'caregiver_screen' # ใช้ root.manager
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos # <-- แก้ไข
+                    size: self.parent.size # <-- แก้ไข
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_list.png'
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'รายชื่อ'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+            # Tab 2
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'add_elder_screen' # ใช้ root.manager
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos # <-- แก้ไข
+                    size: self.parent.size # <-- แก้ไข
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_plus.png'
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'เพิ่มรายชื่อ'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+            # Tab 3
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.manager.current = 'caregiver_profile_screen' # ใช้ root.manager
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos # <-- แก้ไข
+                    size: self.parent.size # <-- แก้ไข
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_profile_active.png' # เปลี่ยนเป็น Active
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'โปรไฟล์'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 0, 0, 0, 1 # เปลี่ยนเป็น Active

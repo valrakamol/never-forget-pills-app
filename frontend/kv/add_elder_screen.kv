@@ -1,0 +1,229 @@
+# frontend/kv/add_elder_screen.kv
+
+# --- สร้าง Rule กลางสำหรับช่องกรอกข้อมูล (นำมาจาก add_medicine_screen) ---
+<InputRow@BoxLayout>:
+    size_hint_y: None
+    height: '56dp'
+    padding: '16dp', 0
+    spacing: '12dp'
+    canvas.before:
+        Color:
+            rgba: 0.92, 0.92, 0.92, 1 # สีพื้นหลังเทาอ่อน
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [28,] # ทำให้ขอบมนสวยงาม
+
+# --- Screen หลัก ---
+<AddElderScreen>:
+    username_input: username_field
+    first_name_input: first_name_field
+    last_name_input: last_name_field
+    password_input: password_field
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1) # สีพื้นหลังเทาอ่อน
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # --- 1. Header สีเขียว (ส่วนที่ 1 ของหน้าจอ) ---
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'เพิ่มรายชื่อผู้สูงอายุ'
+                font_name: 'THFont'
+                font_size: '22sp'
+                color: 1, 1, 1, 1
+                bold: True
+
+        # --- 2. ส่วนของฟอร์มที่เลื่อนได้ (ส่วนที่ 2 ของหน้าจอ) ---
+        ScrollView:
+            bar_width: 0
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "30dp"
+                spacing: "20dp"
+                
+                InputRow:
+                    Image:
+                        source: 'assets/icon_user.png' # หรือไอคอนอื่นที่เหมาะสม
+                        size_hint_x: None
+                        width: '24dp'
+                    TextInput:
+                        id: username_field
+                        hint_text: 'กรอกชื่อผู้ใช้ (ภาษาอังกฤษ)'
+                        font_name: 'THFont' # ใช้ฟอนต์ไทยเพื่อให้ hint_text สวย
+                        font_size: '16sp'
+                        background_color: 0,0,0,0
+                        foreground_color: (50/255, 50/255, 50/255, 1)
+                        hint_text_color: (150/255, 150/255, 150/255, 1)
+
+                # --- กล่องกรอกชื่อ ---
+                InputRow:
+                    Image:
+                        source: 'assets/icon_user.png'
+                        size_hint_x: None
+                        width: '24dp'
+                    TextInput:
+                        id: first_name_field
+                        hint_text: 'กรอกชื่อผู้สูงอายุ'
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        background_color: 0,0,0,0 # *** ทำให้โปร่งใส ***
+                        foreground_color: (50/255, 50/255, 50/255, 1)
+                        hint_text_color: (150/255, 150/255, 150/255, 1)
+
+                # --- กล่องกรอกนามสกุล ---
+                InputRow:
+                    Image:
+                        source: 'assets/icon_user.png'
+                        size_hint_x: None
+                        width: '24dp'
+                    TextInput:
+                        id: last_name_field
+                        hint_text: 'กรอกนามสกุลผู้สูงอายุ'
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        background_color: 0,0,0,0 # *** ทำให้โปร่งใส ***
+                        foreground_color: (50/255, 50/255, 50/255, 1)
+                        hint_text_color: (150/255, 150/255, 150/255, 1)
+
+                # --- กล่องกรอกรหัสผ่าน ---
+                InputRow:
+                    Image:
+                        source: 'assets/icon_lock.png'
+                        size_hint_x: None
+                        width: '24dp'
+                    TextInput:
+                        id: password_field
+                        hint_text: 'กรอกรหัสผ่านเริ่มต้น'
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        password: True
+                        background_color: 0,0,0,0 # *** ทำให้โปร่งใส ***
+                        foreground_color: (50/255, 50/255, 50/255, 1)
+                        hint_text_color: (150/255, 150/255, 150/255, 1)
+                        
+                # --- ปุ่ม ย้อนกลับ / ยืนยัน ---
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: '48dp'
+                    spacing: '16dp'
+                    padding: [0, '10dp', 0, 0] # padding ด้านบน
+                    Button:
+                        text: 'ย้อนกลับ'
+                        font_name: 'THFont'
+                        font_size: '18sp'
+                        # สไตล์ปุ่มแบบ add_medicine_screen (ไม่มี background_normal: '')
+                        background_color: 0.85, 0.85, 0.85, 1
+                        color: 1, 1, 1, 1
+                        on_release: root.go_back()
+                    Button:
+                        text: 'ยืนยัน'
+                        font_name: 'THFont'
+                        font_size: '18sp'
+                        background_color: (46/255, 125/255, 50/255, 1) # สีเขียวเข้ม
+                        on_release: root.add_elder()
+
+        # --- 3. Bottom Navigation Tabs (ส่วนที่ 3 ของหน้าจอ) ---
+        BoxLayout:
+            id: bottom_nav
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '72dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # ... ส่วน Tabs เหมือนเดิม ไม่ต้องแก้ไข ...
+            # Tab 1
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.switch_to_caregiver_screen()
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_list.png'
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'รายชื่อ'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'center'
+            # Tab 2
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.go_to_add_elder()
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_plus_active.png'
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'เพิ่มรายชื่อ'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 0, 0, 0, 1
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'center'
+            # Tab 3
+            Button:
+                background_normal: ''
+                background_color: 0,0,0,0
+                on_release: root.go_to_caregiver_profile()
+                size_hint_x: 1
+                BoxLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    orientation: 'vertical'
+                    padding: [0, '6dp', 0, 0]
+                    spacing: '2dp'
+                    Image:
+                        source: 'assets/icon_profile.png'
+                        size_hint: None, None
+                        size: '32dp', '32dp'
+                        pos_hint: {'center_x': 0.5}
+                    Label:
+                        text: 'โปรไฟล์'
+                        font_name: 'THFont'
+                        font_size: '14sp'
+                        color: 1, 1, 1, 1
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        halign: 'center'

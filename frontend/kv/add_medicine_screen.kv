@@ -1,0 +1,281 @@
+# frontend/kv/add_medicine_screen.kv
+
+# --- Rule สำหรับตัวเลือกใน Dropdown (เหมือนเดิม) ---
+<CustomSpinnerOption@Button>:
+    font_name: 'THFont'
+    height: '48dp'
+    size_hint_y: None
+    background_normal: ''
+    background_color: (66/255, 71/255, 76/255, 1)
+    color: 1, 1, 1, 1
+
+# --- Rule สำหรับแถวกรอกข้อมูล (เหมือนเดิม) ---
+<InputRow@BoxLayout>:
+    size_hint_y: None
+    height: '56dp'
+    padding: '16dp', 0 
+    spacing: '8dp'
+    canvas.before:
+        Color:
+            rgba: 0.92, 0.92, 0.92, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [28,]
+
+# --- Rule หลักของหน้าจอ (ส่วนที่แก้ไข) ---
+<AddMedicineScreen>:
+    # เชื่อม Properties จาก .py
+    name_spinner: name_spinner # <-- แก้จาก name_field
+    dosage_value_input: dosage_value_input
+    dosage_unit_spinner: dosage_unit_spinner
+    meal_spinner: meal_spinner
+    time_morning: time_morning
+    time_noon: time_noon
+    time_evening: time_evening
+    time_bedtime: time_bedtime
+    start_day_spinner: start_day_spinner
+    start_month_spinner: start_month_spinner
+    start_year_spinner: start_year_spinner
+    end_day_spinner: end_day_spinner
+    end_month_spinner: end_month_spinner
+    end_year_spinner: end_year_spinner
+    
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (245/255, 245/255, 245/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        # --- ส่วนหัว ---
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            canvas.before:
+                Color:
+                    rgba: (119/255, 217/255, 161/255, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: "เพิ่มรายการยา"
+                font_name: "THFont"
+                font_size: "24sp"
+                bold: True
+            
+        # --- ส่วนฟอร์ม ---
+        ScrollView:
+            GridLayout:
+                cols: 1
+                adaptive_height: True
+                padding: "30dp"
+                spacing: "20dp"
+
+                # --- *** จุดที่แก้ไข: เปลี่ยน TextInput เป็น Spinner *** ---
+                InputRow:
+                    Spinner:
+                        id: name_spinner
+                        text: "เลือกชื่อยา"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        values: root.medicine_names # ดึงข้อมูลจาก Python
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+
+                InputRow:
+                    TextInput:
+                        id: dosage_value_input
+                        hint_text: "ปริมาณ"
+                        font_name: "THFont"
+                        font_size: '16sp'
+                        background_color: 0,0,0,0
+                        foreground_color: 0.1, 0.1, 0.1, 1
+                        hint_text_color: 0.5, 0.5, 0.5, 1
+                        input_filter: 'float'
+                        size_hint_x: 0.6
+                    Spinner:
+                        id: dosage_unit_spinner
+                        text: "หน่วย"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: ["เม็ด","แคปซูล", "ช้อนชา", "ช้อนโต๊ะ", "มิลลิกรัม", "ผง", "cc"]
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+                        size_hint_x: 0.4
+                InputRow:
+                    Spinner:
+                        id: meal_spinner
+                        text: "เลือกมื้ออาหาร"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: ["ก่อนอาหาร", "หลังอาหาร", "พร้อมอาหาร", "ก่อนนอน", "อื่นๆ"]
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+                
+                # --- Layout สำหรับเลือกเวลา (เหมือนเดิม) ---
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: '10dp'
+
+                    Label:
+                        text: "เลือกเวลา (เลือกได้หลายข้อ)"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        color: 0.1, 0.1, 0.1, 1
+                        halign: 'left'
+                        text_size: self.width, None
+
+                    GridLayout:
+                        cols: 2
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: '8dp'
+                        
+                        BoxLayout:
+                            size_hint_y: None
+                            height: '48dp'
+                            CheckBox:
+                                id: time_morning
+                                size_hint_x: None
+                                width: '48dp'
+                            Label:
+                                text: "08:00 (เช้า)"
+                                font_name: 'THFont'
+                                color: 0.1, 0.1, 0.1, 1
+                        BoxLayout:
+                            size_hint_y: None
+                            height: '48dp'
+                            CheckBox:
+                                id: time_noon
+                                size_hint_x: None
+                                width: '48dp'
+                            Label:
+                                text: "12:00 (กลางวัน)"
+                                font_name: 'THFont'
+                                color: 0.1, 0.1, 0.1, 1
+                        BoxLayout:
+                            size_hint_y: None
+                            height: '48dp'
+                            CheckBox:
+                                id: time_evening
+                                size_hint_x: None
+                                width: '48dp'
+                            Label:
+                                text: "18:00 (เย็น)"
+                                font_name: 'THFont'
+                                color: 0.1, 0.1, 0.1, 1
+                        BoxLayout:
+                            size_hint_y: None
+                            height: '48dp'
+                            CheckBox:
+                                id: time_bedtime
+                                size_hint_x: None
+                                width: '48dp'
+                            Label:
+                                text: "21:00 (ก่อนนอน)"
+                                font_name: 'THFont'
+                                color: 0.1, 0.1, 0.1, 1
+
+                InputRow:
+                    Label:
+                        text: "วันที่เริ่ม"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        size_hint_x: 0.4
+                        color: 0.1, 0.1, 0.1, 1
+                    Spinner:
+                        id: start_day_spinner
+                        text: "วัน"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: [str(i) for i in range(1, 32)]
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+                    Spinner:
+                        id: start_month_spinner
+                        text: "เดือน"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+                    Spinner:
+                        id: start_year_spinner
+                        text: "ปี (พ.ศ.)"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: root.year_options
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+                InputRow:
+                    Label:
+                        text: "วันที่สิ้นสุด"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        size_hint_x: 0.4
+                        color: 0.1, 0.1, 0.1, 1
+                    Spinner:
+                        id: end_day_spinner
+                        text: "วัน"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: [str(i) for i in range(1, 32)]
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+                    Spinner:
+                        id: end_month_spinner
+                        text: "เดือน"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"]
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+                    Spinner:
+                        id: end_year_spinner
+                        text: "ปี (พ.ศ.)"
+                        font_name: 'THFont'
+                        font_size: '16sp'
+                        values: root.year_options
+                        background_color: 0,0,0,0
+                        color: 0.1, 0.1, 0.1, 1
+                        option_cls: 'CustomSpinnerOption'
+
+        # --- ส่วนปุ่ม ---
+        BoxLayout:
+            size_hint_y: None
+            height: '80dp'
+            padding: "12dp"
+            spacing: "12dp"
+            
+            Button:
+                text: "ย้อนกลับ"
+                font_name: "THFont"
+                font_size: '16sp'
+                background_normal: ''
+                background_color: (200/255, 200/255, 200/255, 1) # สีเทา
+                color: (50/255, 50/255, 50/255, 1)
+                on_release: root.go_back()
+
+            Button:
+                text: "ยืนยัน"
+                font_name: "THFont"
+                font_size: '16sp'
+                background_normal: ''
+                background_color: (46/255, 125/255, 50/255, 1) # สีเขียวเข้ม
+                color: 1, 1, 1, 1
+                on_release: root.save_medicine()
