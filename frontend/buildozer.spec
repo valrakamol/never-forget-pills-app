@@ -20,7 +20,7 @@ version = 1.0
 
 # requirements: Library ทั้งหมดที่ Kivy ใช้ (สำคัญมาก)
 # เราจะยังไม่ใส่ kivy_garden.graph ก่อน เพื่อให้ Build ผ่านง่ายๆ
-requirements = python3,kivy==2.3.0,pillow,requests,pyjwt,plyer,pyjnius
+requirements = python3,kivy==2.3.0,pillow,requests,pyjwt,plyer,https://github.com/kivy/pyjnius/archive/master.zip
 
 # orientation: การวางแนวของหน้าจอ
 orientation = portrait
