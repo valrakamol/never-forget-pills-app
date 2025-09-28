@@ -21,7 +21,6 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       
-      # --- *** ใช้ Python 3.11 ตามที่ .spec กำหนด *** ---
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
@@ -33,6 +32,11 @@ jobs:
           sudo apt-get install -y libtool pkg-config build-essential autoconf automake python3-dev libffi-dev libssl-dev
           python -m pip install --upgrade pip
           pip install cython==3.0.10 buildozer
+
+      # --- *** จุดแก้ไข: เพิ่มขั้นตอนนี้กลับเข้ามา *** ---
+      - name: Accept Android SDK licenses
+        working-directory: ./frontend
+        run: yes | buildozer android update
 
       - name: Build with Buildozer
         working-directory: ./frontend
